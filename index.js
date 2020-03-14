@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 1337;
+const URL = process.env.URL || "https://bungeetech.com";
 let log = "Log empty";
 
 const server = http.createServer((req, res) => {
@@ -44,10 +45,10 @@ const server = http.createServer((req, res) => {
     const page = await browser.newPage();
     console.log('browser started');
 
-    await page.goto('https://target.com/', {waitUntil:'domcontentloaded'});
+    await page.goto(URL, {waitUntil:'domcontentloaded'});
     console.log('page connected');
 
-    await page.waitFor(6000);
+    await page.waitFor(5000);
     await page.screenshot({path: path.resolve(__dirname, 'example.png')});
     console.log('page saved');
 
