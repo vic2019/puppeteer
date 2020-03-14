@@ -12,7 +12,7 @@ const server = http.createServer((req, res) => {
 
   if (req.url === '/log') {
     res.writeHead(200, {'Content-Type': 'application/json'});
-    return res.end(JSON.stringify(log));
+    return res.end(log);
   }
 
   fs.readFile(path.resolve(__dirname, 'example.png'), (err, data) => {
@@ -55,7 +55,7 @@ const server = http.createServer((req, res) => {
     await browser.close();
 
   } catch(err) {
-    log = err;
+    log = JSON.stringify(err);
   }
 
   server.listen(PORT);
