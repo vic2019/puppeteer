@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer');
   console.log('browser starting');
   const page = await browser.newPage();
   console.log('browser started');
-  await page.goto('https://tinder.com/', {waitUntil:'domcontentloaded'});
+  await page.goto('https://stackoverflow.com/', {waitUntil:'domcontentloaded'});
   console.log('page connected');
   await page.waitFor(5000);
   await page.screenshot({path: require('path').resolve(__dirname, 'example.png')});
