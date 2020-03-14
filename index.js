@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 1337;
-let log = "Empty log";
+let log = "Log empty";
 
 const server = http.createServer((req, res) => {
   console.log(req.url);
