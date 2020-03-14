@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 1337;
 const URL = process.env.URL || "https://bungeetech.com";
 const log = fs.createWriteStream(__dirname + '/debug.log', { flags : 'w' });
 
+// Create a file server to check the result of screenshot
 const server = http.createServer((req, res) => {
   fs.readFile(path.join(__dirname, req.url), (err, data) => {
     if (err) {
@@ -19,7 +20,8 @@ const server = http.createServer((req, res) => {
   }); 
 });
 
-
+// Launch a headful Chromium, take a screenshot and save it as example.png. 
+// Then, start the file server.
 (async () => {
 
   try{
@@ -45,7 +47,7 @@ const server = http.createServer((req, res) => {
     console.log('page saved');
 
     await browser.close();
-    
+
   } catch(err) {
     log.write(err.toString() + '\n');
   }
