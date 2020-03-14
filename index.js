@@ -23,3 +23,21 @@ const puppeteer = require('puppeteer');
   await browser.close();
 
 })();
+
+const http = require('http');
+const fs = require('fs');
+const PORT = process.env.PORT || 8080;
+
+const server = http.createServer((req, res) => {
+  fs.readFile(__dirname + req.url, (err, data) => {
+    if (err) {
+      res.writeHead(404);
+      return res.end(JSON.stringify(err));
+    }
+
+    res.writeHead(200);
+    res.end(data);
+  });
+}).listen(process.env.PORT || 8080);
+
+console.log("Server running at http://localhost:%d", PORT);
