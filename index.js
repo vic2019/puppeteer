@@ -45,8 +45,7 @@ const server = http.createServer((req, res) => {
     console.log('page saved');
 
     await browser.close();
-
-    throw new Error('oh my!')
+    
   } catch(err) {
     log.write(err.toString() + '\n');
   }
