@@ -5,17 +5,10 @@ const path = require('path');
 
 const PORT = process.env.PORT || 1337;
 const URL = process.env.URL || "https://bungeetech.com";
-let log = "Log empty";
+const log = fs.createWriteStream(__dirname + '/debug.log', { flags : 'w' });
 
 const server = http.createServer((req, res) => {
-  console.log(req.url);
-
-  if (req.url === '/log') {
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    return res.end(log);
-  }
-
-  fs.readFile(path.resolve(__dirname, 'example.png'), (err, data) => {
+  fs.readFile(path.join(__dirname, req.url), (err, data) => {
     if (err) {
       res.writeHead(404, {'Content-Type': 'application/json'});
       return res.end(JSON.stringify(err));
@@ -23,8 +16,7 @@ const server = http.createServer((req, res) => {
 
     res.writeHead(200);
     return res.end(data);
-  });
-  
+  }); 
 });
 
 
@@ -54,11 +46,11 @@ const server = http.createServer((req, res) => {
 
     await browser.close();
 
+    throw new Error('oh my!')
   } catch(err) {
-    log = JSON.stringify(err);
+    log.write(err.toString() + '\n');
   }
 
   server.listen(PORT);
   console.log("Server listening on http://localhost:%d", PORT);
-
 })();
