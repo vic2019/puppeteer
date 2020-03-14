@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 
   let browser = await puppeteer.launch({
       dumpio: true,
-      headless: false,
+      headless: true,
       args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -15,7 +15,7 @@ const puppeteer = require('puppeteer');
   console.log('browser starting');
   const page = await browser.newPage();
   console.log('browser started');
-  await page.goto('https://github.com/', {waitUntil:'domcontentloaded'});
+  await page.goto('https://tinder.com/', {waitUntil:'domcontentloaded'});
   console.log('page connected');
   await page.waitFor(5000);
   await page.screenshot({path: require('path').resolve(__dirname, 'example.png')});
