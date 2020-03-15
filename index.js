@@ -27,7 +27,7 @@ const server = http.createServer((req, res) => {
   try{
     const browser = await puppeteer.launch({
       dumpio: true,
-      headless: true,
+      headless: false,
       defaultViewport: {
         width: 1280,
         height: 720
