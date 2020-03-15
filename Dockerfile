@@ -26,4 +26,4 @@ EXPOSE 1337
 
 ENV URL=https://target.com
 
-CMD xvfb-run -a --server-args="-screen 0 1920x1080x24 -ac -nolisten tcp -dpi 96 +extension RANDR" node index.js
+CMD xvfb-run -a --server-args="-screen 0 2560x1440x16 -ac -nolisten tcp -dpi 96 +extension RANDR" node index.js
