@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "xvfb-run -a --server-args='-screen 0 2560x1440x16 -ac -nolisten tcp -dpi 96 +extension RANDR' node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
