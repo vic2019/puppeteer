@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 1337;
-const URL = process.env.URL || "https://bungeetech.com";
+const URL = process.env.URL || "https://walmart.com/";
 const log = fs.createWriteStream(__dirname + '/debug.log', { flags : 'w' });
 
 // Create a file server to check the result of screenshot
