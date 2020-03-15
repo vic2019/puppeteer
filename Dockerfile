@@ -3,7 +3,7 @@
 # docker-machine create --driver azure \
 #   --azure-subscription-id {{subscription id}} \
 #   --azure-ssh-user {{ssh username}} \
-#   --azure-docker-port 1337 \
+#   --azure-open-port 80 443 1337 3000 5000 8080 \
 #   --azure-size "Standard_B1s" \
 #   {{machine name}}
 
