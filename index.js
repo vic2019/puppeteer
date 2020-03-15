@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
       headless: false,
       defaultViewport: {
         width: 1280,
-        height: 720
+        height: 5120
       },
       args: [
         '--no-sandbox',
@@ -46,7 +46,7 @@ const server = http.createServer((req, res) => {
     await page.goto(URL, {waitUntil:'domcontentloaded'});
     console.log('page connected');
 
-    await page.waitFor(5000);
+    await page.waitFor(6000);
     await page.screenshot({path: path.resolve(__dirname, 'example.png')});
     console.log('page saved');
 
