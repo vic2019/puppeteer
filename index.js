@@ -27,7 +27,11 @@ const server = http.createServer((req, res) => {
   try{
     const browser = await puppeteer.launch({
       dumpio: true,
-      headless: false,
+      headless: true,
+      defaultViewport: {
+        width: 1280,
+        height: 720
+      },
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
