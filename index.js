@@ -3,8 +3,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = process.env.PORT || 1337;
-const URL = process.env.URL || "https://walmart.com/";
+const PORT = process.env.PORT || 80;
+const URL = process.env.URL || "https://www.wholefoodsmarket.com/";
 const log = fs.createWriteStream(__dirname + '/debug.log', { flags : 'w' });
 
 // Create a file server to check the result of screenshot
