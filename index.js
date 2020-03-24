@@ -3,7 +3,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 1337;
 const URL = process.env.URL || "https://www.wholefoodsmarket.com/";
 const log = fs.createWriteStream(__dirname + '/debug.log', { flags : 'w' });
 
