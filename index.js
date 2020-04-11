@@ -1,30 +1,27 @@
 const puppeteer = require('puppeteer');
-const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
+const app = express();
 
 const PORT = process.env.PORT || 8081;
-const URL = process.env.URL || "https://www.wholefoodsmarket.com/";
-const log = fs.createWriteStream(__dirname + '/debug.log', { flags : 'w' });
+const log = fs.createWriteStream('./debug.log', { flags: 'a' });
+let imageIndex = 1;
 
-// Create a file server to check the result of screenshot
-const server = http.createServer((req, res) => {
-  fs.readFile(path.join(__dirname, req.url), (err, data) => {
-    if (err) {
-      res.writeHead(404, {'Content-Type': 'application/json'});
-      return res.end(JSON.stringify(err));
-    }
-
-    res.writeHead(200);
-    return res.end(data);
-  }); 
+app.get('/', (req, res) => {
+  return res.redirect('screenshot?url=https://www.wholefoodsmarket.com/');
 });
 
-// Launch a headful Chromium, take a screenshot and save it as example.png. 
-// Then, start the file server.
-(async () => {
+app.get('/screenshot', async (req, res) => {
+  const url = req.query['url'];
+  if (!url) return res.status(400).json({ message: 'Missing URL'});
 
-  try{
+  const imageFilename = await takeScreenShot(url).catch(err => logAndRespond(err));
+  if (!imageFilename) return res.status(500).json({ message: 'Cannot take screenshots at this time'});
+
+  return res.redirect(imageFilename);
+
+  async function takeScreenShot(url) {
     const browser = await puppeteer.launch({
       dumpio: true,
       headless: false,
@@ -37,25 +34,59 @@ const server = http.createServer((req, res) => {
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
       ]
-    });
-
+    }).catch(err => logAndRespond(err));
+  
     console.log('browser starting');
-    const page = await browser.newPage();
+    const page = await browser.newPage().catch(err => logAndRespond(err));
     console.log('browser started');
-
-    await page.goto(URL, {waitUntil:'domcontentloaded'});
+    
+    await page.goto(url, {waitUntil:'domcontentloaded'}).catch(err => logAndRespond(err));
     console.log('page connected');
-
-    await page.waitFor(6000);
-    await page.screenshot({path: path.resolve(__dirname, 'example.png')});
+    
+    await page.waitFor(5500).catch(err => logAndRespond(err));
+    
+    const imageFilename = 'screenshot-' + `0${String(imageIndex++)}`.substr(-2) + '.png';
+    await page.screenshot({ path: path.resolve(__dirname, imageFilename) }).catch(err => logAndRespond(err));
     console.log('page saved');
+    
+    await browser.close().catch(err => logAndRespond(err));
 
-    await browser.close();
-
-  } catch(err) {
-    log.write(err.toString() + '\n');
+    return imageFilename;
   }
 
-  server.listen(PORT);
-  console.log("Server listening on http://localhost:%d", PORT);
-})();
+  function logAndRespond(err) {
+    if (err) {
+      log.write(new Date().toUTCString() + '\n');
+      log.write(err.stack + '\n\n');
+      return res.status(500).json(err.stack);
+    }
+    
+    return res.status(404).end();
+  }
+});
+
+app.get('/:filename', (req, res) => {
+  const filename = req.params.filename;
+  fs.readFile(path.join(__dirname, filename), (err, data) => {
+    if (err) return res.status(404).json(err);
+    return res.status(200).end(data);
+  }); 
+});
+
+// DUPLICATE.
+// ALSO NOTE that custom error handlers must have all four input parameters
+// app.use((err, req, res, next) => {
+//   if (err) {
+//     log.write(new Date().toUTCString() + '\n');
+//     log.write(err.stack + '\n\n');
+//     return res.status(500).json(err.stack);
+//   }
+  
+//   return res.status(404).end();
+// });
+
+app.listen(PORT, (err) => {
+  if (err) console.log(err);
+  
+  console.log(`Server listening at http://localhost:${PORT}`);
+})

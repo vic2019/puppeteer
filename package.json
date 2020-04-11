@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/vic2019/puppeteer",
   "dependencies": {
+    "express": "^4.17.1",
     "puppeteer": "^2.1.1"
-  }
+  },
+  "devDependencies": {}
 }
