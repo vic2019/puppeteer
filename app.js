@@ -9,7 +9,7 @@ const log = fs.createWriteStream('./debug.log', { flags: 'a' });
 let imageIndex = 1;
 
 app.get('/', (req, res) => {
-  return res.redirect('screenshot?url=https://www.wholefoodsmarket.com/');
+  return res.redirect('screenshot?url=https://techcrunch.com/');
 });
 
 app.post('/azureTest', (req, res) => {
