@@ -12,6 +12,10 @@ app.get('/', (req, res) => {
   return res.redirect('screenshot?url=https://www.wholefoodsmarket.com/');
 });
 
+app.post('/azureTest', (req, res) => {
+  return res.status(200);
+});
+
 app.get('/screenshot', async (req, res) => {
   const url = req.query['url'];
   if (!url) return res.status(400).json({ message: 'Missing URL'});
