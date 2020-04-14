@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/azureTest', (req, res) => {
-  return res.status(200);
+  return res.status(200).end();
 });
 
 app.get('/screenshot', async (req, res) => {
