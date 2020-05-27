@@ -31,4 +31,4 @@ EXPOSE 80 443 8081
 
 ENV URL=https://target.com
 
-CMD xvfb-run -a --server-args="-screen 0 1920x1080x16 -ac -nolisten tcp -dpi 96 +extension RANDR" node index.js
+CMD xvfb-run -a --server-args="-screen 0 1920x1080x16 -ac -nolisten tcp -dpi 96 +extension RANDR" node app.js
