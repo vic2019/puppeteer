@@ -8,8 +8,12 @@ const PORT = process.env.PORT || 8081;
 const log = fs.createWriteStream('./debug.log', { flags: 'a' });
 let imageIndex = 1;
 
-app.get('/', (req, res) => {
-  return res.redirect('screenshot?url=https://techcrunch.com/');
+app.get('/', (_, res) => {
+  return res.redirect(`screenshot?url=${process.env.URL || 'https://techcrunch.com/'}`);
+});
+
+app.get('/exit', () => {
+  process.exit(-1);
 });
 
 app.post('/azureTest', (req, res) => {
